@@ -4,155 +4,252 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ZWV Fahrplan Landshut</title>
-  <!-- Firebase SDK hinzufügen -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js"></script>
-  
   <style>
-    /* Dein bestehendes CSS */
+    body {
+      background-color: #121212;
+      color: #E0E0E0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+
+    p {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .table-container {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid #E0E0E0;
+      padding: 15px;
+      text-align: left;
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+
+    th {
+      background-color: #333;
+    }
+
+    td {
+      background-color: #1E1E1E;
+    }
+
+    .green-row {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .red-row {
+      background-color: #F44336;
+      color: white;
+    }
+
+    .orange {
+      background-color: #FF9800;
+      color: black;
+    }
+
+    .blink {
+      background-color: #4CAF50;
+      color: white;
+      animation: blink-animation 1.5s steps(5, start) infinite;
+    }
+
+    @keyframes blink-animation {
+      to {
+        visibility: hidden;
+      }
+    }
+
+    .logo {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 80px;
+      height: auto;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      p {
+        font-size: 1.8rem;
+      }
+
+      th, td {
+        padding: 10px;
+        font-size: 1.5rem;
+      }
+
+      .logo {
+        width: 50px;
+      }
+    }
   </style>
+
+  <!-- Seite nach 5 Minuten neu laden -->
+  <script>
+    setTimeout(function(){
+      window.location.reload(1);
+    }, 300000); // 5 Minuten = 300000 ms
+  </script>
+  
+  <!-- Einbindung von Socket.IO -->
+  <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-  <!-- Deine HTML-Inhalte -->
-  <div class="header">
-    <h1>ZWV Fahrplan Landshut</h1>
-    <p>Aktuelle Uhrzeit: <span id="clock"></span></p>
-  </div>
 
-  <div class="table-container">
-    <table id="flight-table">
-      <thead>
-        <tr>
-          <th>Zeit</th>
-          <th>Ziel</th>
-          <th>ZWV</th>
-          <th>Status</th>
-          <th>Aktionen</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Die Zeilen werden hier per JavaScript hinzugefügt -->
-      </tbody>
-    </table>
-  </div>
+<div class="header">
+  <h1>ZWV Fahrplan Landshut</h1>
+  <p>Aktuelle Uhrzeit: <span id="clock"></span></p>
+  <img src="https://cdn.bimmertoday.de/wp-content/uploads/2024/04/BMW-Logo-2024-Transparenz-dunkler-Kranz.jpg" alt="Logo" class="logo">
+</div>
 
-  <script>
-    // Firebase konfigurieren und initialisieren
-    const firebaseConfig = {
-      apiKey: "AIzaSyAvlfn-jHIZwhw-AFMKbq9z_dt4FoUshv0",
-      authDomain: "dulcet-genius-159810.firebaseapp.com",
-      projectId: "dulcet-genius-159810",
-      storageBucket: "dulcet-genius-159810.appspot.com",
-      messagingSenderId: "497292603839",
-      appId: "1:497292603839:web:364fd605108fd25e1a710a",
-      measurementId: "G-79QZD0YHGC"
-    };
+<div class="table-container">
+  <table id="flight-table">
+    <thead>
+      <tr>
+        <th>Zeit</th>
+        <th>Ziel</th>
+        <th>ZWV</th>
+        <th>Status</th>
+        <th>Aktionen</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Die Zeilen werden hier per JavaScript hinzugefügt -->
+    </tbody>
+  </table>
+</div>
 
-    // Firebase initialisieren
-    const app = firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
-
-      const flights = [
+<script>
+  const flights = [
     { time: "00:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
     { time: "05:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
     { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
     { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-    { time: "03:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-    { time: "08:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-    { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-    { time: "04:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
-    { time: "09:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
-    { time: "16:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
-    { time: "21:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
-    { time: "05:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
-    { time: "11:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
-    { time: "17:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
-    { time: "23:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
-    { time: "01:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
-    { time: "07:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
-    { time: "12:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
-    { time: "18:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
-    { time: "04:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
-    { time: "09:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
-    { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
-    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
-    { time: "06:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
-    { time: "11:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
-    { time: "17:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
-    { time: "22:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
-    { time: "04:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
-    { time: "09:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
-    { time: "15:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
-    { time: "20:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
-    { time: "00:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
-    { time: "06:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
-    { time: "12:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
-    { time: "19:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
-    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
-    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
-    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
-    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
-    { time: "01:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
-    { time: "06:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
-    { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
-    { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
-    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
-    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
-    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
-    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
-    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
-    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
-    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
-    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" }
+    // Weitere Einträge ...
   ];
 
-    let rowStatus = Array(flights.length).fill("");
-    
-    // Echtzeit-Daten empfangen und Tabelle aktualisieren
-    database.ref('flights').on('value', function(snapshot) {
-      snapshot.forEach(function(childSnapshot) {
-        var data = childSnapshot.val();
-        rowStatus[childSnapshot.key] = data.color;
-      });
-      updateFlights();
-    });
+  let rowStatus = Array(flights.length).fill("");
+  let rowMarkedForOrange = Array(flights.length).fill(false);
+  let orangeTimestamps = Array(flights.length).fill(null);
 
-    // Funktion zum Markieren einer Zeile als erledigt/nicht erledigt
-    function markAsDone(index, color) {
-      rowStatus[index] = color;
-      updateFlights();
-      database.ref('flights/' + index).set({ color: color });
-    }
+  function updateClock() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
+  }
 
-    // Funktion zur Aktualisierung der Fluganzeige
-    function updateFlights() {
-      const tableBody = document.querySelector('#flight-table tbody');
-      tableBody.innerHTML = '';
-
-      flights.forEach((flight, index) => {
-        const row = document.createElement('tr');
-        let rowClass = rowStatus[index] === 'green' ? 'green-row' : rowStatus[index] === 'red' ? 'red-row' : '';
-        
-        row.innerHTML = `
-          <td class="${rowClass}">${flight.time}</td>
-          <td class="${rowClass}">${flight.destination}</td>
-          <td class="${rowClass}">${flight.flight}</td>
-          <td class="${rowClass}">${rowStatus[index]}</td>
-          <td class="${rowClass}">
-            <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
-            <button onclick="markAsDone(${index}, 'red')">Nicht erledigt</button>
-          </td>
-        `;
-        tableBody.appendChild(row);
-      });
-    }
-
+  function markAsDone(index, color) {
+    rowStatus[index] = color;
     updateFlights();
-  </script>
+  }
+
+  function resetStatus(index) {
+    rowStatus[index] = "";
+    rowMarkedForOrange[index] = false;
+    orangeTimestamps[index] = null;
+    updateFlights();
+  }
+
+  function updateFlights() {
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const tableBody = document.querySelector('#flight-table tbody');
+    tableBody.innerHTML = '';
+
+    flights.forEach((flight, index) => {
+      const row = document.createElement('tr');
+      const flightTime = flight.time;
+      const [flightHours, flightMinutes] = flight.time.split(':');
+      const flightDateTime = new Date();
+      flightDateTime.setHours(flightHours);
+      flightDateTime.setMinutes(flightMinutes);
+      const timeDifferenceInMinutes = Math.floor((now - flightDateTime) / 60000);
+
+      if (orangeTimestamps[index]) {
+        const elapsedTimeSinceOrange = (now - orangeTimestamps[index]) / (1000 * 60 * 60);
+        if (elapsedTimeSinceOrange >= 24) {
+          rowMarkedForOrange[index] = false;
+          orangeTimestamps[index] = null;
+        }
+      }
+
+      let rowClass = '';
+      if (rowStatus[index] === "green") {
+        rowClass = 'green-row';
+      } else if (rowStatus[index] === "red") {
+        rowClass = 'red-row';
+      } else if (rowMarkedForOrange[index]) {
+        rowClass = 'orange';
+      } else if (timeDifferenceInMinutes > 5) {
+        rowMarkedForOrange[index] = true;
+        orangeTimestamps[index] = new Date();
+        rowClass = 'orange';
+      } else if (flightTime === currentTime) {
+        rowClass = 'blink';
+      }
+
+      row.innerHTML = `
+        <td class="${rowClass}">${flight.time}</td>
+        <td class="${rowClass}">${flight.destination}</td>
+        <td class="${rowClass}">${flight.flight}</td>
+        <td class="${rowClass}">${rowStatus[index]}</td>
+        <td class="${rowClass}">
+          <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
+          <button onclick="markAsDone(${index}, 'red')">nicht erledigt</button>
+          <button onclick="resetStatus(${index})">Zurücksetzen</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  updateFlights();
+  setInterval(() => {
+    updateClock();
+    updateFlights();
+  }, 1000);
+
+  // Socket.IO Client-Integration
+  const socket = io();
+
+  // Beispiel: Empfang von Nachrichten vom Server
+  socket.on('message', function(data) {
+    console.log('Nachricht vom Server:', data);
+  });
+
+  // Beispiel: Senden von Nachrichten an den Server
+  socket.emit('message', 'Hallo vom Client!');
+</script>
+
 </body>
 </html>
