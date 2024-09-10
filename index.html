@@ -6,12 +6,12 @@
   <title>ZWV Fahrplan Landshut</title>
   <style>
     body {
-      background-color: #121212;
-      color: #E0E0E0;
+      background-color: #121212; /* Dunkleres Schwarz für Augenschonung */
+      color: #E0E0E0; /* Helles Grau für besseren Kontrast */
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      overflow: hidden; /* Verhindert Scrollen der gesamten Seite */
     }
 
     .header {
@@ -21,19 +21,19 @@
     }
 
     h1 {
-      font-size: 3.5rem;
+      font-size: 3.5rem; /* Größer für bessere Lesbarkeit */
       margin-bottom: 10px;
-      font-weight: bold;
+      font-weight: bold; /* Schrift fett */
     }
 
     p {
-      font-size: 2rem;
-      font-weight: bold;
+      font-size: 2rem; /* Größer für bessere Lesbarkeit */
+      font-weight: bold; /* Schrift fett */
     }
 
     .table-container {
-      max-height: 80vh;
-      overflow-y: auto;
+      max-height: 80vh; /* Maximale Höhe des Containers */
+      overflow-y: auto; /* Scrollbalken nur für die Tabelle */
     }
 
     table {
@@ -42,23 +42,23 @@
     }
 
     th, td {
-      border: 1px solid #E0E0E0;
-      padding: 15px;
+      border: 1px solid #E0E0E0; /* Leichtes Grau für bessere Sichtbarkeit */
+      padding: 15px; /* Mehr Abstand für bessere Lesbarkeit */
       text-align: left;
-      font-size: 1.8rem;
-      font-weight: bold;
+      font-size: 1.8rem; /* Größer für bessere Lesbarkeit */
+      font-weight: bold; /* Schrift fett */
     }
 
     th {
-      background-color: #333;
+      background-color: #333; /* Dunkelgrauer Hintergrund für die Header */
     }
 
     td {
-      background-color: #1E1E1E;
+      background-color: #1E1E1E; /* Etwas hellerer Hintergrund für Zeilen */
     }
 
     .green-row {
-      background-color: #4CAF50;
+      background-color: #4CAF50; /* Angepasste Farbe für bessere Sichtbarkeit */
       color: white;
     }
 
@@ -88,13 +88,14 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      width: 80px;
+      width: 80px; /* Größe angepasst */
       height: auto;
     }
 
+    /* Medienabfrage für mobile Geräte */
     @media (max-width: 768px) {
       h1 {
-        font-size: 2.5rem;
+        font-size: 2.5rem; /* Verkleinert für mobile Geräte */
       }
 
       p {
@@ -102,12 +103,12 @@
       }
 
       th, td {
-        padding: 10px;
-        font-size: 1.5rem;
+        padding: 10px; /* Weniger Abstand für mobile Geräte */
+        font-size: 1.5rem; /* Verkleinert für mobile Geräte */
       }
 
       .logo {
-        width: 50px;
+        width: 50px; /* Kleinere Logo-Größe für mobile */
       }
     }
   </style>
@@ -118,15 +119,14 @@
       window.location.reload(1);
     }, 300000); // 5 Minuten = 300000 ms
   </script>
-  
-  <!-- Einbindung von Socket.IO -->
-  <script src="/socket.io/socket.io.js"></script>
+
 </head>
 <body>
 
 <div class="header">
   <h1>ZWV Fahrplan Landshut</h1>
   <p>Aktuelle Uhrzeit: <span id="clock"></span></p>
+  <!-- Verwende absolute URLs für das Logo -->
   <img src="https://cdn.bimmertoday.de/wp-content/uploads/2024/04/BMW-Logo-2024-Transparenz-dunkler-Kranz.jpg" alt="Logo" class="logo">
 </div>
 
@@ -153,102 +153,73 @@
     { time: "05:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
     { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
     { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-    // Weitere Einträge ...
+    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "03:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "08:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "04:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
+    { time: "09:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
+    { time: "16:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
+    { time: "21:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV434" },
+    { time: "05:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
+    { time: "11:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
+    { time: "17:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
+    { time: "23:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV435" },
+    { time: "01:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
+    { time: "07:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
+    { time: "12:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
+    { time: "18:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV436" },
+    { time: "04:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
+    { time: "09:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
+    { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
+    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" }
   ];
 
-  let rowStatus = Array(flights.length).fill("");
-  let rowMarkedForOrange = Array(flights.length).fill(false);
-  let orangeTimestamps = Array(flights.length).fill(null);
+  const tbody = document.querySelector('#flight-table tbody');
 
-  function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
-  }
+  flights.forEach(flight => {
+    const row = document.createElement('tr');
 
-  function markAsDone(index, color) {
-    rowStatus[index] = color;
-    updateFlights();
-  }
+    const timeCell = document.createElement('td');
+    timeCell.textContent = flight.time;
+    row.appendChild(timeCell);
 
-  function resetStatus(index) {
-    rowStatus[index] = "";
-    rowMarkedForOrange[index] = false;
-    orangeTimestamps[index] = null;
-    updateFlights();
-  }
+    const destinationCell = document.createElement('td');
+    destinationCell.textContent = flight.destination;
+    row.appendChild(destinationCell);
 
-  function updateFlights() {
-    const now = new Date();
-    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-    const tableBody = document.querySelector('#flight-table tbody');
-    tableBody.innerHTML = '';
+    const flightCell = document.createElement('td');
+    flightCell.textContent = flight.flight;
+    row.appendChild(flightCell);
 
-    flights.forEach((flight, index) => {
-      const row = document.createElement('tr');
-      const flightTime = flight.time;
-      const [flightHours, flightMinutes] = flight.time.split(':');
-      const flightDateTime = new Date();
-      flightDateTime.setHours(flightHours);
-      flightDateTime.setMinutes(flightMinutes);
-      const timeDifferenceInMinutes = Math.floor((now - flightDateTime) / 60000);
+    const statusCell = document.createElement('td');
+    statusCell.textContent = "Pünktlich"; // Beispielstatus, kann angepasst werden
+    row.appendChild(statusCell);
 
-      if (orangeTimestamps[index]) {
-        const elapsedTimeSinceOrange = (now - orangeTimestamps[index]) / (1000 * 60 * 60);
-        if (elapsedTimeSinceOrange >= 24) {
-          rowMarkedForOrange[index] = false;
-          orangeTimestamps[index] = null;
-        }
-      }
+    const actionsCell = document.createElement('td');
+    actionsCell.textContent = "Details";
+    row.appendChild(actionsCell);
 
-      let rowClass = '';
-      if (rowStatus[index] === "green") {
-        rowClass = 'green-row';
-      } else if (rowStatus[index] === "red") {
-        rowClass = 'red-row';
-      } else if (rowMarkedForOrange[index]) {
-        rowClass = 'orange';
-      } else if (timeDifferenceInMinutes > 5) {
-        rowMarkedForOrange[index] = true;
-        orangeTimestamps[index] = new Date();
-        rowClass = 'orange';
-      } else if (flightTime === currentTime) {
-        rowClass = 'blink';
-      }
-
-      row.innerHTML = `
-        <td class="${rowClass}">${flight.time}</td>
-        <td class="${rowClass}">${flight.destination}</td>
-        <td class="${rowClass}">${flight.flight}</td>
-        <td class="${rowClass}">${rowStatus[index]}</td>
-        <td class="${rowClass}">
-          <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
-          <button onclick="markAsDone(${index}, 'red')">nicht erledigt</button>
-          <button onclick="resetStatus(${index})">Zurücksetzen</button>
-        </td>
-      `;
-      tableBody.appendChild(row);
-    });
-  }
-
-  updateFlights();
-  setInterval(() => {
-    updateClock();
-    updateFlights();
-  }, 1000);
-
-  // Socket.IO Client-Integration
-  const socket = io();
-
-  // Beispiel: Empfang von Nachrichten vom Server
-  socket.on('message', function(data) {
-    console.log('Nachricht vom Server:', data);
+    tbody.appendChild(row);
   });
 
-  // Beispiel: Senden von Nachrichten an den Server
-  socket.emit('message', 'Hallo vom Client!');
+  // Aktuelle Uhrzeit aktualisieren
+  function updateClock() {
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString('de-DE', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+    document.getElementById('clock').textContent = formattedTime;
+  }
+
+  // Uhr alle Sekunde aktualisieren
+  setInterval(updateClock, 1000);
 </script>
 
 </body>
