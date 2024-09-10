@@ -89,111 +89,9 @@
     }
   </style>
   <script>
-    // Flugdaten
-    const flights = [
-      { time: "00:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-      { time: "05:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-      { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-      { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
-      { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-      { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-      { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-      { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
-      { time: "03:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-      { time: "08:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-      { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
-      { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" }
-    ];
-
-    // Status wird in localStorage gespeichert, um beim Neuladen erhalten zu bleiben
-    let rowStatus = JSON.parse(localStorage.getItem('rowStatus')) || Array(flights.length).fill("");
-
-    // Funktion zum Speichern des Status
-    function saveStatus() {
-      localStorage.setItem('rowStatus', JSON.stringify(rowStatus));
-    }
-
-    // Funktion zur Aktualisierung der Uhrzeit
-    function updateClock() {
-      const now = new Date();
-      const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      document.getElementById('clock').innerText = currentTime;
-    }
-
-    // Funktion zur Aktualisierung der Flugdaten
-    function updateFlights() {
-      const now = new Date();
-      const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-      const tableBody = document.querySelector('#flight-table tbody');
-      tableBody.innerHTML = '';
-
-      flights.forEach((flight, index) => {
-        const row = document.createElement('tr');
-        const flightTime = flight.time;
-        const flightDate = new Date(now.toDateString() + ' ' + flightTime);
-
-        let rowClass = '';
-
-        // Grüne blinkende Zeile, wenn aktuelle Zeit gleich der Flugzeit ist
-        if (currentTime === flightTime) {
-          rowClass = 'blink';
-        }
-
-        // Orange Markierung, wenn mehr als 5 Minuten überschritten
-        if ((now - flightDate) > 5 * 60000 && rowStatus[index] === "") {
-          rowClass = 'orange';
-        }
-
-        // Farbige Zeilen basierend auf Status
-        if (rowStatus[index] === "green") rowClass = 'green-row';
-        else if (rowStatus[index] === "red") rowClass = 'red-row';
-
-        row.innerHTML = `
-          <td class="${rowClass}">${flight.time}</td>
-          <td class="${rowClass}">${flight.destination}</td>
-          <td class="${rowClass}">${flight.flight}</td>
-          <td class="${rowClass}">${rowStatus[index]}</td>
-          <td class="${rowClass}">
-            <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
-            <button onclick="markAsDone(${index}, 'red')">Nicht erledigt</button>
-            <button onclick="resetStatus(${index})">Zurücksetzen</button>
-          </td>`;
-        tableBody.appendChild(row);
-      });
-    }
-
-    // Statusänderungen speichern
-    function markAsDone(index, color) {
-      rowStatus[index] = color;
-      saveStatus();
-      updateFlights();
-    }
-
-    // Status zurücksetzen
-    function resetStatus(index) {
-      rowStatus[index] = "";
-      saveStatus();
-      updateFlights();
-    }
-
-    // Status täglich um Mitternacht zurücksetzen
-    function resetDaily() {
-      const now = new Date();
-      const resetTime = new Date();
-      resetTime.setHours(0, 0, 0, 0);
-
-      if (now > resetTime) {
-        rowStatus = Array(flights.length).fill("");
-        saveStatus();
-      }
-    }
-
-    // Initiale Aufrufe
-    updateClock();
-    setInterval(updateClock, 1000);
-    updateFlights();
-    setInterval(updateFlights, 1000);
-    setInterval(resetDaily, 86400000); // Alle 24 Stunden
+    setTimeout(function(){
+      window.location.reload(1);
+    }, 300000);
   </script>
 </head>
 <body>
@@ -215,5 +113,55 @@
   <tbody>
   </tbody>
 </table>
+<script>
+  const flights = [
+    { time: "00:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
+    { time: "05:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
+    { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
+    { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV430" },
+    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV432" },
+    { time: "03:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "08:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" },
+    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV433" }
+  ];
+  let rowStatus = Array(flights.length).fill("");
+  function updateFlights() {
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const tableBody = document.querySelector('#flight-table tbody');
+    tableBody.innerHTML = '';
+    flights.forEach((flight, index) => {
+      const row = document.createElement('tr');
+      let rowClass = '';
+      if (rowStatus[index] === "green") rowClass = 'green-row';
+      else if (rowStatus[index] === "red") rowClass = 'red-row';
+      row.innerHTML = `
+        <td class="${rowClass}">${flight.time}</td>
+        <td class="${rowClass}">${flight.destination}</td>
+        <td class="${rowClass}">${flight.flight}</td>
+        <td class="${rowClass}">${rowStatus[index]}</td>
+        <td class="${rowClass}">
+          <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
+          <button onclick="markAsDone(${index}, 'red')">Nicht erledigt</button>
+          <button onclick="resetStatus(${index})">Zurücksetzen</button>
+        </td>`;
+      tableBody.appendChild(row);
+    });
+  }
+  function markAsDone(index, color) {
+    rowStatus[index] = color;
+    updateFlights();
+  }
+  function resetStatus(index) {
+    rowStatus[index] = "";
+    updateFlights();
+  }
+  updateFlights();
+  setInterval(() => { updateFlights(); }, 1000);
+</script>
 </body>
 </html>
