@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ZWV Fahrplan Landshut</title>
+  <title>ZWV Fahrplan Werk Landshut - VZ-3 Pilsting</title>
   <style>
     body {
       background-color: #121212; /* Dunkleres Schwarz für Augenschonung */
@@ -11,7 +11,6 @@
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Verhindert Scrollen der gesamten Seite */
     }
 
     .header {
@@ -29,11 +28,6 @@
     p {
       font-size: 2rem; /* Größer für bessere Lesbarkeit */
       font-weight: bold; /* Schrift fett */
-    }
-
-    .table-container {
-      max-height: 80vh; /* Maximale Höhe des Containers */
-      overflow-y: auto; /* Scrollbalken nur für die Tabelle */
     }
 
     table {
@@ -124,28 +118,25 @@
 <body>
 
 <div class="header">
-  <h1>ZWV Fahrplan Landshut</h1>
+  <h1>ZWV Fahrplan Werk Landshut - VZ-3 Pilsting</h1>
   <p>Aktuelle Uhrzeit: <span id="clock"></span></p>
-  <!-- Verwende absolute URLs für das Logo -->
   <img src="https://cdn.bimmertoday.de/wp-content/uploads/2024/04/BMW-Logo-2024-Transparenz-dunkler-Kranz.jpg" alt="Logo" class="logo">
 </div>
 
-<div class="table-container">
-  <table id="flight-table">
-    <thead>
-      <tr>
-        <th>Zeit</th>
-        <th>Ziel</th>
-        <th>ZWV</th>
-        <th>Status</th>
-        <th>Aktionen</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Die Zeilen werden hier per JavaScript hinzugefügt -->
-    </tbody>
-  </table>
-</div>
+<table id="flight-table">
+  <thead>
+    <tr>
+      <th>Zeit</th>
+      <th>Ziel</th>
+      <th>ZWV</th>
+      <th>Status</th>
+      <th>Aktionen</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Die Zeilen werden hier per JavaScript hinzugefügt -->
+  </tbody>
+</table>
 
 <script>
   const flights = [
@@ -176,50 +167,119 @@
     { time: "04:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
     { time: "09:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
     { time: "15:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
-    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" }
+    { time: "20:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV437" },
+    { time: "06:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
+    { time: "11:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
+    { time: "17:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
+    { time: "22:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV438" },
+    { time: "04:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
+    { time: "09:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
+    { time: "15:00", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
+    { time: "20:30", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV439" },
+    { time: "00:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
+    { time: "06:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
+    { time: "12:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
+    { time: "19:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV440" },
+    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
+    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
+    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
+    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV442" },
+    { time: "01:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
+    { time: "06:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
+    { time: "12:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
+    { time: "17:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV444" },
+    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
+    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
+    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
+    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV447" },
+    { time: "02:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
+    { time: "07:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
+    { time: "14:15", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" },
+    { time: "19:45", destination: "Anmeldung Wareneingang Werk 4.1", flight: "ZWV448" }
   ];
 
-  const tbody = document.querySelector('#flight-table tbody');
+  let rowStatus = Array(flights.length).fill("");
+  let rowMarkedForOrange = Array(flights.length).fill(false);
+  let orangeTimestamps = Array(flights.length).fill(null);
 
-  flights.forEach(flight => {
-    const row = document.createElement('tr');
-
-    const timeCell = document.createElement('td');
-    timeCell.textContent = flight.time;
-    row.appendChild(timeCell);
-
-    const destinationCell = document.createElement('td');
-    destinationCell.textContent = flight.destination;
-    row.appendChild(destinationCell);
-
-    const flightCell = document.createElement('td');
-    flightCell.textContent = flight.flight;
-    row.appendChild(flightCell);
-
-    const statusCell = document.createElement('td');
-    statusCell.textContent = "Pünktlich"; // Beispielstatus, kann angepasst werden
-    row.appendChild(statusCell);
-
-    const actionsCell = document.createElement('td');
-    actionsCell.textContent = "Details";
-    row.appendChild(actionsCell);
-
-    tbody.appendChild(row);
-  });
-
-  // Aktuelle Uhrzeit aktualisieren
   function updateClock() {
     const now = new Date();
-    const formattedTime = now.toLocaleTimeString('de-DE', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    });
-    document.getElementById('clock').textContent = formattedTime;
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    document.getElementById('clock').innerText = `${hours}:${minutes}:${seconds}`;
   }
 
-  // Uhr alle Sekunde aktualisieren
-  setInterval(updateClock, 1000);
+  function markAsDone(index, color) {
+    rowStatus[index] = color;
+    updateFlights();
+  }
+
+  function resetStatus(index) {
+    rowStatus[index] = "";
+    rowMarkedForOrange[index] = false;
+    orangeTimestamps[index] = null;
+    updateFlights();
+  }
+
+  function updateFlights() {
+    const now = new Date();
+    const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const tableBody = document.querySelector('#flight-table tbody');
+    tableBody.innerHTML = '';
+
+    flights.forEach((flight, index) => {
+      const row = document.createElement('tr');
+      const flightTime = flight.time;
+      const [flightHours, flightMinutes] = flight.time.split(':');
+      const flightDateTime = new Date();
+      flightDateTime.setHours(flightHours);
+      flightDateTime.setMinutes(flightMinutes);
+      const timeDifferenceInMinutes = Math.floor((now - flightDateTime) / 60000);
+
+      if (orangeTimestamps[index]) {
+        const elapsedTimeSinceOrange = (now - orangeTimestamps[index]) / (1000 * 60 * 60);
+        if (elapsedTimeSinceOrange >= 24) {
+          rowMarkedForOrange[index] = false;
+          orangeTimestamps[index] = null;
+        }
+      }
+
+      let rowClass = '';
+      if (rowStatus[index] === "green") {
+        rowClass = 'green-row';
+      } else if (rowStatus[index] === "red") {
+        rowClass = 'red-row';
+      } else if (rowMarkedForOrange[index]) {
+        rowClass = 'orange';
+      } else if (timeDifferenceInMinutes > 5) {
+        rowMarkedForOrange[index] = true;
+        orangeTimestamps[index] = new Date();
+        rowClass = 'orange';
+      } else if (flightTime === currentTime) {
+        rowClass = 'blink';
+      }
+
+      row.innerHTML = `
+        <td class="${rowClass}">${flight.time}</td>
+        <td class="${rowClass}">${flight.destination}</td>
+        <td class="${rowClass}">${flight.flight}</td>
+        <td class="${rowClass}">${rowStatus[index]}</td>
+        <td class="${rowClass}">
+          <button onclick="markAsDone(${index}, 'green')">Erledigt</button>
+          <button onclick="markAsDone(${index}, 'red')">nicht erledigt</button>
+          <button onclick="resetStatus(${index})">Zurücksetzen</button>
+        </td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+
+  updateFlights();
+  setInterval(() => {
+    updateClock();
+    updateFlights();
+  }, 1000);
 </script>
 
 </body>
